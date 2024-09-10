@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="profile page of Koushik Roy - Iscordian. BackEnd JavaScript developer specializing in Node.js and creator of Nextify.js.">
+    <title>Koushik Roy ~ Iscordian</title>
+    
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f2f5;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Profile Card */
+        .profile-card {
+            background-color: #fff;
+            padding: 40px;
+            text-align: center;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .profile-card.dark {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .logo {
+            width: 120px;
+            margin-bottom: 20px;
+        }
+
+        .name {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .job {
+            margin-bottom: 24px;
+            font-size: 20px;
+            color: #555;
+        }
+
+        .bio {
+            margin-top: 20px;
+        }
+
+        .bio p {
+            display: none;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .links a {
+            font-size: 30px;
+            color: inherit;
+            transition: color 0.3s ease;
+        }
+
+        .links a:hover {
+            color: #007bff;
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+        }
+
+        #themeSwitch {
+            background-color: #007bff;
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+
+        #themeSwitch:hover {
+            background-color: #0056b3;
+        }
+
+        body.dark {
+            background-color: #222;
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .profile-card {
+            animation: fadeInUp 1s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="profile-card">
+            <img src="logo.png" alt="Profile Logo" class="logo">
+            <div class="name">Koushik Roy</div>
+            <div class="job"><span id="cycler"></span></div>
+            <div class="bio">
+                <span id="showBio">About Me</span>
+                <p id="bioText">A Backend JavaScript Developer. Contact me through the icons below!</p>
+            </div>
+            <div class="links">
+                <a href="https://github.com/iscordian" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://discord.com/users/1050641070368772166" target="_blank"><i class="fab fa-discord"></i></a>
+            </div>
+        </div>
+        <div class="theme-toggle">
+            <button id="themeSwitch">Switch Theme</button>
+        </div>
+    </div>
+
+    <script>
+        const textList = [
+            "Backend JavaScript Developer", 
+            "Creator of Nextify.js – A Muiltipurpose npm Package"
+        ];
+        let currentIndex = 0;
+        const cycler = document.getElementById('cycler');
+        let currentText = '';
+        let typeMode = true;
+
+        function typeEffect() {
+            if (typeMode) {
+                currentText += textList[currentIndex].charAt(currentText.length);
+
+                if (currentText.length === textList[currentIndex].length) {
+                    typeMode = false;
+                    setTimeout(deleteEffect, 3000);
+                }
+            } else {
+                currentText = currentText.slice(0, -1);
+
+                if (currentText.length === 0) {
+                    typeMode = true;
+                    currentIndex = (currentIndex + 1) % textList.length;
+                }
+            }
+
+            cycler.textContent = currentText;
+        }
+
+        function deleteEffect() {
+            typeEffect();
+        }
+
+        typeEffect();
+        setInterval(typeEffect, 150);
+
+        const showBioButton = document.getElementById('showBio');
+        const bioText = document.getElementById('bioText');
+        let bioVisible = false;
+
+        showBioButton.addEventListener('click', () => {
+            bioVisible = !bioVisible;
+            bioText.style.display = bioVisible ? 'block' : 'none';
+            showBioButton.textContent = bioVisible ? 'Hide' : 'About Me';
+        });
+
+        /* Theme Switcher */
+        const themeSwitch = document.getElementById('themeSwitch');
+        const body = document.body;
+        const profileCard = document.querySelector('.profile-card');
+
+        themeSwitch.addEventListener('click', () => {
+            body.classList.toggle('dark');
+            profileCard.classList.toggle('dark');
+        });
+    </script>
+</body>
+</html>
